@@ -3,7 +3,7 @@
 require "nokogiri"
 require "open-uri"
 require "set"
-
+print "Scraping"
 page = 1
 File.open('input.txt', 'w') do |file|
   loop do
@@ -18,7 +18,7 @@ File.open('input.txt', 'w') do |file|
     page += 1
   end
 end
-
+print "."
 page = 1
 File.open('output.txt', 'w') do |file|
   loop do
@@ -34,9 +34,13 @@ File.open('output.txt', 'w') do |file|
   end
 end
 
+print ".\n"
 users_followed = Set.new(File.readlines('input.txt').map(&:strip).reject(&:empty?))
 users_following = Set.new(File.readlines('output.txt').map(&:strip).reject(&:empty?))
 unique = (users_followed - users_following) + (users_following - users_followed)
 
 File.write('result.txt', unique.to_a.join("\n"))
+
+puts "Cleaning."
+system("rm", "-rf", "input.txt", "output.txt")
 puts "Done!"
